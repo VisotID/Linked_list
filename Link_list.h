@@ -1,16 +1,21 @@
-#pragma once
+// Высоцкая И.Д.
+#pragma once // директива в С++, для предотвращения многократного включения одного и того же заголовочного файла
 #include <iostream>
 #include <stdexcept>
 
 using namespace std;
 
+/// Шаблонный класс узел двусвязного списка
 template <typename T>
 class Node
 {
 public:
-	T data;
-	Node<T>* prev;
-	Node<T>* next;
+	T data; // элемент списка
+	Node<T>* prev; // предыдущий узел
+	Node<T>* next; // следующий узел
+
+	/// Конструктор узла списка
+	/// T data - элемент списка
 	Node(T data)
 	{
 		this->data = data;
@@ -18,18 +23,24 @@ public:
 	}
 };
 
+/// Шаблонный класс двусвязный список
 template <typename T>
 class DoubleList {
 private:
-	Node<T>* head;
-	Node<T>* tail;
-	size_t Size;
+	Node<T>* head; // первый узел списка
+	Node<T>* tail; // последний узел списка
+	size_t Size; // размер списка
 public:
+
+	/// Коструктор по умолчанию (пустой список с 0 размером)
 	DoubleList()
 	{
 		this->head = this->tail = nullptr;
 		this->Size = 0;
 	}
+
+	/// Конструктор копирования
+	/// const DoubleList<T>& lst - копируемый список
 	DoubleList(const DoubleList<T>& lst)
 	{
 		Node<T>* curr = lst.head;
@@ -39,11 +50,18 @@ public:
 			curr = curr->next;
 		}
 	}
+
+	/// Конструктор перемещения
+	/// (DoubleList<T>&& lst - перемещаемый список
+	/// noexcept : head(lst.head), tail(lst.tail), Size(lst.Size)
 	DoubleList(DoubleList<T>&& lst) noexcept : head(lst.head), tail(lst.tail), Size(lst.Size)
 	{
 		lst.head = lst.tail = nullptr;
 		lst.Size = 0;
 	}
+
+	/// Оператор присваивания копированием
+	/// const DoubleList<T>& lst - копируемый список
 	DoubleList<T>& operator =(const DoubleList<T>& lst)
 	{
 		if (this != &lst)
@@ -52,6 +70,9 @@ public:
 		}
 		return *this;
 	}
+
+	/// Оператор присваивания перемещением
+	/// DoubleList<T>&& lst - перемещаемый список
 	DoubleList<T>& operator =(DoubleList<T>&& lst)
 	{
 		if (this != &lst)
@@ -61,6 +82,7 @@ public:
 		return *this;
 	}
 
+	/// Деструктор
 	~DoubleList()
 	{
 		while (head != nullptr)
@@ -69,11 +91,14 @@ public:
 		}
 	}
 
+	/// Получение размера списка
 	size_t GetSize() const
 	{
 		return Size;
 	}
 
+	/// Получение узла списка
+	/// size_t i - индекс узла списка
 	Node<T>* GetAt(size_t i)
 	{
 		Node<T>* res = head;
@@ -86,6 +111,8 @@ public:
 		return (n == i ? res : nullptr);
 	}
 
+	/// Получение элемента в узле списка
+	/// size_t i - индекс узла списка
 	T& At(size_t i)
 	{
 		Node<T>* res = GetAt(i);
@@ -96,11 +123,15 @@ public:
 		return res->data;
 	}
 
+	/// Перегрузка оператора [] (получение элемента узла списка)
+	/// size_t i - индекс узла списка
 	T& operator [](size_t i)
 	{
 		return At(i);
 	}
 
+	/// Удаление определённого узла
+	/// Node<T>* node - узел списка
 	void Pop(Node<T>* node)
 	{
 		if (node == nullptr)
@@ -127,9 +158,11 @@ public:
 		Size--;
 	}
 
+	/// Добавление элемента в начало списка
+	/// const T& elem - элемент, который нужно вставить
 	void PushFront(const T& elem)
 	{
-		Node<T> res = new Node<T>(elem);
+		Node<T>* res = new Node<T>(elem);
 		res->next = head;
 		if (head != nullptr)
 		{
@@ -143,6 +176,8 @@ public:
 		Size++;
 	}
 
+	/// Добавление элемента в конец списка
+	/// const T& elem - элемент, который нужно вставить
 	void PushBack(const T& elem)
 	{
 		Node<T>* res = new Node<T>(elem);
@@ -159,6 +194,8 @@ public:
 		Size++;
 	}
 
+	/// Вставка элемента по индексу
+	/// const T& elem - элемент, который нужно вставить, size_t i - индекс
 	void PushAt(const T& elem, size_t i)
 	{
 		if (i > Size)
@@ -186,6 +223,7 @@ public:
 		}
 	}
 
+	/// Удаление элемента из начала списка
 	void PopFront()
 	{
 		if (head == nullptr)
@@ -206,6 +244,7 @@ public:
 		Size--;
 	}
 
+	/// Удаление элемента из конца списка
 	void PopBack()
 	{
 		if (tail == nullptr)
@@ -226,6 +265,8 @@ public:
 		Size--;
 	}
 
+	/// Удаление узла списка по индексу
+	/// size_t i - индекс
 	void PopAt(size_t i)
 	{
 		if (i >= Size)
@@ -235,6 +276,7 @@ public:
 		Pop(GetAt(i));
 	}
 
+	/// Очистка списка
 	void Clear()
 	{
 		Node<T>* curr = head;
@@ -246,24 +288,6 @@ public:
 		}
 		head = tail = nullptr;
 		Size = 0;
-	}
-
-	void FOut() const
-	{
-		for (Node<T>* curr = head; curr != nullptr; curr = curr->next)
-		{
-			cout << curr->data << " ";
-		}
-		cout << endl;
-	}
-
-	void BOut() const
-	{
-		for (Node<T>* curr = tail; curr != nullptr; curr = curr->prev)
-		{
-			cout << curr->data << " ";
-		}
-		cout << endl;
 	}
 };
 
