@@ -53,7 +53,7 @@ public:
 
 	/// Конструктор перемещения
 	/// (DoubleList<T>&& lst - перемещаемый список
-	/// noexcept : head(lst.head), tail(lst.tail), Size(lst.Size)
+	/// noexcept : head(lst.head), tail(lst.tail), Size(lst.Size) - перемещение
 	DoubleList(DoubleList<T>&& lst) noexcept : head(lst.head), tail(lst.tail), Size(lst.Size)
 	{
 		lst.head = lst.tail = nullptr;
@@ -64,7 +64,7 @@ public:
 	/// const DoubleList<T>& lst - копируемый список
 	DoubleList<T>& operator =(const DoubleList<T>& lst)
 	{
-		if (this != &lst)
+		if (this != &lst) // проверка на самокопирование
 		{
 			return DoubleList(lst);
 		}
@@ -75,7 +75,7 @@ public:
 	/// DoubleList<T>&& lst - перемещаемый список
 	DoubleList<T>& operator =(DoubleList<T>&& lst)
 	{
-		if (this != &lst)
+		if (this != &lst) // проверка на самокопирование
 		{
 			return DoubleList(lst);
 		}

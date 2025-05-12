@@ -9,7 +9,7 @@ void test()
 	DoubleList<int> lst;
 	assert(lst.GetSize() == 0);
 
-	//тест вставки в конец
+	//тест вставки в конец (0 1 2)
 	for (size_t i = 0; i < 3; i++)
 	{
 		lst.PushBack(i);
@@ -63,7 +63,7 @@ void test()
 		assert(lstom.At(i) == i);
 	}
 
-	//тест вставки в начало
+	//тест вставки в начало (2 1 0)
 	DoubleList<int> lstfpu;
 	for (size_t i = 0; i < 3; i++)
 	{
@@ -73,45 +73,45 @@ void test()
 	}
 
 	//тест вставки по индексу
-	lstfpu.PushAt(6, 3); // вставка в конец
+	lstfpu.PushAt(6, 3); // вставка в конец (2 1 0 6)
 	assert(lstfpu.GetSize() == 4);
 	assert(lstfpu[3] == 6);
 
-	lstfpu.PushAt(9, 0); // вставка в начало
+	lstfpu.PushAt(9, 0); // вставка в начало (9 2 1 0 6)
 	assert(lstfpu.GetSize() == 5);
 	assert(lstfpu[0] == 9);
 
-	lstfpu.PushAt(10, 2);
+	lstfpu.PushAt(10, 2); // вставка в середину (9 2 10 1 0 6)
 	assert(lstfpu.GetSize() == 6);
 	assert(lstfpu[2] == 10);
 
 	//тест удаления узла списка из начала
-	DoubleList<int> voidlst;
+	DoubleList<int> voidlst; // пустой список
 	assert(voidlst.GetSize() == 0);
-	lstfpu.PopFront();
+	lstfpu.PopFront(); // (2 10 1 0 6)
 	assert(lstfpu.GetSize() == 5);
 	assert(lstfpu[0] == 2);
-	voidlst.PushBack(5);
+	voidlst.PushBack(5); // (5)
 	voidlst.PopFront(); // удаление из списка с 1 элементом
 	assert(voidlst.GetSize() == 0);
 
 	//тест удаления узла списка из конца
-	voidlst.PushBack(5);
+	voidlst.PushBack(5); // (5)
 	voidlst.PopBack(); // удаление из списка с 1 элементом
 	assert(voidlst.GetSize() == 0);
-	lstfpu.PopBack();
+	lstfpu.PopBack(); // (2 10 1 0)
 	assert(lstfpu.GetSize() == 4);
 	assert(lstfpu[3] == 0);
 
 	//тест удаления узла списка по индексу
-	voidlst.PushBack(5);
+	voidlst.PushBack(5); // (5)
 	voidlst.PopAt(0); // удаление из списка с 1 элементом
 	assert(voidlst.GetSize() == 0);
 
-	lstfpu.PopAt(0); // удаление из начала
+	lstfpu.PopAt(0); // удаление из начала (10 1 0)
 	assert(lstfpu.GetSize() == 3);
 	assert(lstfpu[0] == 10);
-	lstfpu.PopAt(2); // удаление из конца
+	lstfpu.PopAt(2); // удаление из конца (10 1)
 	assert(lstfpu.GetSize() == 2);
 	assert(lstfpu[1] == 1);
 
