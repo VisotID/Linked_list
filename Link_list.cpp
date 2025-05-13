@@ -120,4 +120,62 @@ void test()
 	assert(voidlst.GetSize() == 0);
 	lstfpu.Clear(); // очистка списка
 	assert(lstfpu.GetSize() == 0);
+
+	// тесты на проверку бросания исключений
+	DoubleList<int> lstiskl; // пустой список
+
+	// тест на проверку бросания исключений для удаления элемента из начала пустого списка
+	try
+	{
+		lstiskl.PopFront();
+		assert(false);
+	}
+	catch (const underflow_error&)
+	{
+
+	}
+
+	// тест на проверку бросания исключений для удаления элемента из конца пустого списка
+	try
+	{
+		lstiskl.PopBack();
+		assert(false);
+	}
+	catch (const underflow_error&)
+	{
+
+	}
+
+	// тест на проверку бросания исключений для удаления по индексу из пустого списка
+	try
+	{
+		lstiskl.PopAt(4);
+		assert(false);
+	}
+	catch (const out_of_range&)
+	{
+
+	}
+
+	// тест на проверку бросания исключений для оператора []
+	try
+	{
+		lstiskl[6];
+		assert(false);
+	}
+	catch (const out_of_range&)
+	{
+
+	}
+
+	// тест на проверку бросания исключений для вставки элемента по индексу в индекс за пределами списка
+	try
+	{
+		lstiskl.PushAt(1,4);
+		assert(false);
+	}
+	catch (const out_of_range&)
+	{
+
+	}
 }
