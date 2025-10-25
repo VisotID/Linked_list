@@ -3,19 +3,51 @@
 #include "Link_list.h"
 #include <cassert>
 
+
 void test()
 {
 	//тест конструктора по умолчанию
-	DoubleList<int> lst;
-	assert(lst.GetSize() == 0);
+	DoubleList<int> lst1; // пустой
+	assert(lst1.GetSize() == 0);
 
 	//тест вставки в конец (0 1 2)
+	DoubleList<int> lst; // из нескольких элементов
 	for (size_t i = 0; i < 3; i++)
 	{
 		lst.PushBack(i);
 		assert(lst.GetSize() == i + 1);
 		assert(lst[i] == i);
 	}
+
+	DoubleList<int> lst2; // один элемент
+	lst2.PushBack(7);
+
+	//тест итератора перехода на следующий элемент и итератора разыменования
+	auto it = lst.begin(); // несколько элементов
+	auto end = lst.end();
+	assert(*it == 0);
+	++it;
+	assert(*it == 1);
+
+	auto it1 = lst1.begin(); // пустой
+	auto end1 = lst1.end();
+	assert(!(it1 != end));
+	++it1;
+	assert(!(it1 != end));
+
+	auto it3 = lst2.begin(); // один элемент
+	auto end3 = lst2.end();
+	assert(*it3 == 7);
+	++it3;
+	assert(!(it3 != end3));
+
+	// тест итератора сравнения
+	assert(!(lst1.begin() != lst1.end())); // пустой
+	assert(lst2.begin() != lst2.end()); // один элемент
+	auto it4 = lst.begin(); // несколько элементов
+	++it4; // указывает на второй элемент
+	auto it5 = lst.begin(); // указывает на первый элемент
+	assert(it4 != it5); // не равны
 
 	//тест конструктора копирования
 	DoubleList<int> lstc(lst);

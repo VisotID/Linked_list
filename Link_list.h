@@ -36,22 +36,21 @@ public:
 	///   ласс итератора дл€ двусв€зного списка
 	class Iterator : public Iterator_abstr<T> {
 		
-		Node* current; // указатель на текущий узел, на который указывает итератор
+		Node<T>* current; // указатель на текущий узел, на который указывает итератор
 
 	public:
 
 		///  онструктор итератора
 		/// Node* node - указатель на узел, с которого начинаетс€ итераци€
 		/// ≈сли node == nullptr, итератор считаетс€ указывающим на "конец" списка
-		Iterator(Node* node = nullptr) : current(node) {}
+		Iterator(Node<T>* node = nullptr) : current(node) {}
 
-		/// ќператор префиксного инкремента
-		/// ѕеремещает итератор на следующий элемент списка
+		/// ѕереход к следующему элементу списка(префиксный инкремент)
 		/// ≈сли итератор уже указывает на конец (nullptr), то он таким и остаЄтс€
 		/// ¬озвращаем ссылку на сам итератор
 		Iterator& operator++() override {
 			if (current)
-				current = current->next; // ≈сли текущий элемент существует итератор сдвигаетс€ на current->next
+				current = current->next; // если текущий элемент существует итератор сдвигаетс€ на следующий элемент
 			return *this;
 		}
 
@@ -70,8 +69,12 @@ public:
 		/// ¬озвращает true, если итераторы указывают на разные узлы, false, если они указывают на один и тот же узел
 		bool operator!=(const Iterator_abstr<T>& other) const override {
 			// ѕробуем привести ссылку к типу Iterator*
-			const Iterator* it = dynamic_cast<const Iterator*>(&other);
-			return !it || this->current != it->current; // если итераторы не равны
+			const Iterator* it = dynamic_cast<const Iterator*>(&other); 
+			if (!it) // если итераторы не равны
+			{
+				return true;
+			}
+			return this->current != it->current;
 		}
 	};
 
