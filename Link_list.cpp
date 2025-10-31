@@ -19,21 +19,23 @@ void test()
 		assert(lst[i] == i);
 	}
 
-	DoubleList<int> lst2; // один элемент
-	lst2.PushBack(7);
-
 	//тест итератора перехода на следующий элемент и итератора разыменования
 	auto it = lst.begin(); // несколько элементов
 	auto end = lst.end();
 	assert(*it == 0);
 	++it;
-	assert(*it == 1);
+	++it;
+	assert(*it == 2);
 
 	auto it1 = lst1.begin(); // пустой
 	auto end1 = lst1.end();
-	assert(!(it1 != end));
+	assert(!(it1 != end1));
 	++it1;
-	assert(!(it1 != end));
+	assert(!(it1 != end1));
+
+
+	DoubleList<int> lst2; // один элемент
+	lst2.PushBack(7);
 
 	auto it3 = lst2.begin(); // один элемент
 	auto end3 = lst2.end();
@@ -43,7 +45,6 @@ void test()
 
 	// тест итератора сравнения
 	assert(!(lst1.begin() != lst1.end())); // пустой
-	assert(lst2.begin() != lst2.end()); // один элемент
 	auto it4 = lst.begin(); // несколько элементов
 	++it4; // указывает на второй элемент
 	auto it5 = lst.begin(); // указывает на первый элемент

@@ -42,8 +42,10 @@ public:
 
 		/// Конструктор итератора
 		/// Node* node - указатель на узел, с которого начинается итерация
-		/// Если node == nullptr, итератор считается указывающим на "конец" списка
-		Iterator(Node<T>* node = nullptr) : current(node) {}
+		Iterator(Node<T>* node = nullptr)
+		{
+			current = node;
+		}
 
 		/// Переход к следующему элементу списка(префиксный инкремент)
 		/// Если итератор уже указывает на конец (nullptr), то он таким и остаётся
@@ -68,13 +70,23 @@ public:
 		/// const Iterator_abstr<T>& other - другой итератор для сравнения
 		/// Возвращает true, если итераторы указывают на разные узлы, false, если они указывают на один и тот же узел
 		bool operator!=(const Iterator_abstr<T>& other) const override {
-			// Пробуем привести ссылку к типу Iterator*
-			const Iterator* it = dynamic_cast<const Iterator*>(&other); 
+			const Iterator* it = dynamic_cast<const Iterator*>(&other); // пробуем привести ссылку к типу Iterator*
 			if (!it) // если итераторы не равны
 			{
 				return true;
 			}
 			return this->current != it->current;
+		}
+
+		/// Оператор сравнения
+		/// Используется, чтобы проверить, указывают ли два итератора на разные элементы
+		/// const Iterator_abstr<T>& other - другой итератор для сравнения
+		/// Возвращает true, если итераторы указывают на один и тот же узел, false, если они указывают на разные узлы
+		bool operator==(const Iterator_abstr<T>& other) const
+		{
+			const Iterator* it = dynamic_cast<const Iterator*>(&other); // пробуем привести ссылку к типу Iterator*
+			return this->current == it->current;
+			//return !(this != it);
 		}
 	};
 
